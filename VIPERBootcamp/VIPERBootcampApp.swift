@@ -11,7 +11,7 @@ import SwiftUI
 struct VIPERBootcampApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ProductListRouter.createModule()
         }
     }
 }
