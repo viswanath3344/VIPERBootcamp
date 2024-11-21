@@ -7,26 +7,22 @@
 
 import SwiftUI
 
-protocol Router {
-    associatedtype ViewType: View
-    static func createModule() -> ViewType
-}
-
-// Protocol extension for Associated type ?
-
-class ProductListRouter: Router {
-    typealias ViewType = ProductListView
+class ProductListRouter: ProductListRouterProtocol {
     
-    static func createModule() -> ViewType {
-        let viewModel = ProductListViewModel()
+    static func presentError(_message: String) {}
+    
+    static func createModule() -> ProductListView<ProductListPresenter> {
         let presenter = ProductListPresenter()
-        let interactor = ProductListInteractor()
-        interactor.presenter = presenter
-        presenter.interactor = interactor
-        presenter.view = viewModel
-        viewModel.presenter = presenter
+        let view = ProductListView(presenter: presenter)
         
-        return ProductListView(viewModel: viewModel)
+        let interactor = ProductListInteractor()
+        
+        presenter.interactor = interactor
+        presenter.router = ProductListRouter()
+        
+        interactor.output = presenter
+        
+        return view
     }
     
     static func navigateToProductDetail(with product: Product) -> ProductDetailView {
@@ -42,12 +38,12 @@ class ProductDetailsRouter: Router {
     typealias ViewType = ProductDetailView
     
     static func createModule() -> ViewType {
-//        let viewModel = ProductDetailsViewModel()
-//        let presenter = ProductDetailsPresenter()
-//        let interactor = ProductDetailsInteractor()
-//        interactor.presenter = presenter
-//        presenter.interactor = interactor
-//        presenter.view = viewModel
+        //        let viewModel = ProductDetailsViewModel()
+        //        let presenter = ProductDetailsPresenter()
+        //        let interactor = ProductDetailsInteractor()
+        //        interactor.presenter = presenter
+        //        presenter.interactor = interactor
+        //        presenter.view = viewModel
         
         return ProductDetailView()
     }

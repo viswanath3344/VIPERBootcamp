@@ -7,36 +7,32 @@
 
 import SwiftUI
 
-struct ProductListView: View {
-    @StateObject var viewModel: ProductListViewModel
+struct ProductListView <Presenter: ProductListPresenterProtocol>: View {
+    @StateObject var presenter: Presenter
     
-    init (viewModel: ProductListViewModel) {
-        _viewModel =  StateObject(wrappedValue: viewModel)
+    init(presenter: Presenter = ProductListPresenter()) {
+        self._presenter = StateObject(wrappedValue: presenter)
     }
     
     var body: some View {
         VStack {
             Text("VIPER BOOTCAMP")
-            List(viewModel.products, id: \.id) { product in
-                HStack {
-                    Text("\(product.id)")
-                    Spacer()
-                    Text(product.title)
+                List(presenter.products, id: \.id) { product in
+                    HStack {
+                        Text("\(product.id)")
+                        Spacer()
+                        Text(product.title)
+                    }
+                    .onTapGesture {}
                 }
-                .onTapGesture {
-                    viewModel.moveToDetail(product)
-                }
-            }
-            
-            if let product = viewModel.selectedProduct {
-                ProductListRouter.navigateToProductDetail(with: product)
-            }
-            
+         
         }.onAppear {
-            viewModel.refresh()
+            presenter.viewDidLoad()
         }
     }
 }
+
+
 
 #Preview {
     ProductListRouter.createModule()

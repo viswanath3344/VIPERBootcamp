@@ -6,14 +6,10 @@
 //
 
 
-protocol ProductListInteractorProtocol: AnyObject {
-    func fetchProductList()
-    func fetchProductDetails(_ productId: Int)
-}
 
 class ProductListInteractor: ProductListInteractorProtocol {
     var products: [Product] = []
-    weak var presenter: ProductListPresenter?
+    weak var output: ProductListPresenter?
     
     func fetchProductList(){
         products = [
@@ -22,11 +18,11 @@ class ProductListInteractor: ProductListInteractorProtocol {
             .init(id: 3, title: "Three", price: 100),
         ]
         
-        presenter?.didFetchProducts(products)
+        output?.didFetchProductList(products)
     }
     
     func fetchProductDetails(_ productId: Int) {
-        presenter?.didFetchProductDetails(.init(id: productId, title: "Product Details", price: 200))
+        output?.didselectProduct(products.first(where: {$0.id == productId}))
     }
 //    
 }
