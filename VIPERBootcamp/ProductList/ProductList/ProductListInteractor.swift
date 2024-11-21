@@ -5,8 +5,6 @@
 //  Created by C8V7P2 on 20/11/24.
 //
 
-
-
 class ProductListInteractor: ProductListInteractorProtocol {
     var products: [Product] = []
     weak var output: ProductListPresenter?
@@ -22,7 +20,18 @@ class ProductListInteractor: ProductListInteractorProtocol {
     }
     
     func fetchProductDetails(_ productId: Int) {
-        output?.didselectProduct(products.first(where: {$0.id == productId}))
+        // Manipulate for error message
+        products =  [
+            .init(id: 1, title: "One", price: 200),
+            .init(id: 2, title: "Two", price: 100),
+        ]
+        
+        guard let selectedProduct = products.first(where: {$0.id == productId}) else {
+            output?.didFail(with: "Unable to get product details")
+            return
+        }
+        
+        output?.didFetchProductDetails(selectedProduct)
     }
-//    
+
 }

@@ -15,10 +15,12 @@ protocol ProductListPresenterProtocol: ObservableObject {
     var router: ProductListRouter? { get }
     var interactor: ProductListInteractorProtocol? { get }
     var products: [Product] { get set }
+    var selectedProduct: Product? { get set }
+    var errorMessage: String? { get set }
     
     func viewDidLoad()
     func refresh()
-    func didselectProduct(_ product: Product?)
+    func didselectProduct(_ product: Product)
 }
 
 //MARK: Interactor
@@ -31,6 +33,7 @@ protocol ProductListInteractorProtocol: AnyObject {
 protocol ProducListInteractorOutputProtocol: AnyObject {
     func didFetchProductList(_ products: [Product])
     func didFetchProductDetails(_ product: Product)
+    func didFail(with error: String)
 }
 
 
@@ -42,7 +45,6 @@ protocol Router {
 }
 
 // Protocol extension for Associated type ?
-
 protocol ProductListRouterProtocol  {
     static func createModule() -> ProductListView<ProductListPresenter>
     static func navigateToProductDetail(with product: Product) -> ProductDetailView

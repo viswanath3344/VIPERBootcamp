@@ -23,8 +23,23 @@ struct ProductListView <Presenter: ProductListPresenterProtocol>: View {
                         Spacer()
                         Text(product.title)
                     }
-                    .onTapGesture {}
+                    .onTapGesture {
+                        presenter.didselectProduct(product)
+                    }
                 }
+            
+            if let selectedProduct = presenter.selectedProduct  {
+                ProductDetailView(product: selectedProduct)
+            }
+            
+            if let errorMessage = presenter.errorMessage {
+                Text(errorMessage)
+                    .font(.largeTitle)
+                    .padding(.vertical, 30)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red)
+                    
+            }
          
         }.onAppear {
             presenter.viewDidLoad()
