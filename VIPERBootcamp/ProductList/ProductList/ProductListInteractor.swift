@@ -20,7 +20,7 @@ class ProductListInteractor: ProductListInteractorProtocol {
     }
     
     func fetchProductDetails(_ productId: Int) {
-        // Manipulate for error message
+        // Manipulate for error message when clicks on product with ID "3"
         products =  [
             .init(id: 1, title: "One", price: 200),
             .init(id: 2, title: "Two", price: 100),
