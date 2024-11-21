@@ -12,10 +12,12 @@ protocol Router {
     static func createModule() -> ViewType
 }
 
+// Protocol extension for Associated type ?
+
 class ProductListRouter: Router {
     typealias ViewType = ProductListView
     
-    static func createModule() -> ProductListView {
+    static func createModule() -> ViewType {
         let viewModel = ProductListViewModel()
         let presenter = ProductListPresenter()
         let interactor = ProductListInteractor()
@@ -27,7 +29,26 @@ class ProductListRouter: Router {
         return ProductListView(viewModel: viewModel)
     }
     
-    func navigateToProductDetail(with product: Product) {
+    static func navigateToProductDetail(with product: Product) -> ProductDetailView {
+        var productDetailView = ProductDetailsRouter.createModule()
+        productDetailView.product = product
         
+        return productDetailView
+    }
+}
+
+
+class ProductDetailsRouter: Router {
+    typealias ViewType = ProductDetailView
+    
+    static func createModule() -> ViewType {
+//        let viewModel = ProductDetailsViewModel()
+//        let presenter = ProductDetailsPresenter()
+//        let interactor = ProductDetailsInteractor()
+//        interactor.presenter = presenter
+//        presenter.interactor = interactor
+//        presenter.view = viewModel
+        
+        return ProductDetailView()
     }
 }

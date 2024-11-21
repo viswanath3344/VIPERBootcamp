@@ -14,7 +14,6 @@ struct ProductListView: View {
         _viewModel =  StateObject(wrappedValue: viewModel)
     }
     
-    
     var body: some View {
         VStack {
             Text("VIPER BOOTCAMP")
@@ -24,7 +23,15 @@ struct ProductListView: View {
                     Spacer()
                     Text(product.title)
                 }
+                .onTapGesture {
+                    viewModel.moveToDetail(product)
+                }
             }
+            
+            if let product = viewModel.selectedProduct {
+                ProductListRouter.navigateToProductDetail(with: product)
+            }
+            
         }.onAppear {
             viewModel.refresh()
         }

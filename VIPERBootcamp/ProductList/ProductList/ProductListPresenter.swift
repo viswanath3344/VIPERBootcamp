@@ -8,25 +8,37 @@
 import Foundation
 
 protocol ProductListPresenterProtocol: AnyObject {
-     func didFetchProducts(_ products: [Product])
-     func refresh()
+    func didFetchProducts(_ products: [Product])
+    func didFetchProductDetails(_ product: Product)
+    func fetchProductDetails(productID: Int)
+    func refresh()
 }
 
 protocol ProductListViewProtocol: AnyObject {
     func displayProducts(_ products: [Product])
+    func openProductDetails(_ product: Product)
 }
 
-class ProductListPresenter: ProductListPresenterProtocol {
+class ProductListPresenter {
     weak var view: ProductListViewProtocol?
     var interactor : ProductListInteractorProtocol?
-    
     
     func refresh() {
         interactor?.fetchProductList()
     }
     
+    func fetchProductDetails(productID: Int) {
+        interactor?.fetchProductDetails(productID)
+    }
+}
+
+extension ProductListPresenter: ProductListPresenterProtocol {
     func didFetchProducts(_ products: [Product]) {
         print("DId fetch products", products)
         view?.displayProducts(products)
+    }
+    
+    func didFetchProductDetails(_ product: Product) {
+        view?.openProductDetails(product)
     }
 }

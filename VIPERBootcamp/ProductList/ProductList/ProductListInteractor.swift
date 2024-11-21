@@ -8,7 +8,7 @@
 
 protocol ProductListInteractorProtocol: AnyObject {
     func fetchProductList()
- //  func fetchProductDetails(productId: Int)
+    func fetchProductDetails(_ productId: Int)
 }
 
 class ProductListInteractor: ProductListInteractorProtocol {
@@ -25,8 +25,8 @@ class ProductListInteractor: ProductListInteractorProtocol {
         presenter?.didFetchProducts(products)
     }
     
-//    func fetchProductDetails(productId: Int) {
-//        .success(.init(id: 1, title: "One details", price: 200.0))
-//    }
+    func fetchProductDetails(_ productId: Int) {
+        presenter?.didFetchProductDetails(.init(id: productId, title: "Product Details", price: 200))
+    }
 //    
 }
